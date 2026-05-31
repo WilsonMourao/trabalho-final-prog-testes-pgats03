@@ -1,0 +1,24 @@
+{
+  "name": "trabalho-final-prog-testes-pgats03",
+  "version": "1.0.0",
+  "description": "Repositório criado para entrega do trabalho de conclusão da disciplina de Programação para Automação de Testes PGATS-03",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilsonMourao/trabalho-final-prog-testes-pgats03.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/WilsonMourao/trabalho-final-prog-testes-pgats03/issues"
+  },
+  "homepage": "https://github.com/WilsonMourao/trabalho-final-prog-testes-pgats03#readme",
+  "dependencies": {
+    "mocha": "^11.7.6"
+  }
+}
