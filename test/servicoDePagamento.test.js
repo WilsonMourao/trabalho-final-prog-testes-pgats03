@@ -5,10 +5,12 @@ describe('Testes do Serviço de Pagamento', () => {
 
     describe('Verificar método construtor', () => {
         it('deve iniciar sem pagamentos', () => {
-             //Arrange
+            //Arrange
             const servicoDePagamento = new ServicoDePagamento();
 
-            expect(servicoDePagamento.consultar()).to.be.an('array').that.is.empty;
+            assert.ok(Array.isArray(servicoDePagamento.consultar()));
+            assert.strictEqual(servicoDePagamento.consultar().length, 0);
+
         });
     });
 
@@ -23,7 +25,7 @@ describe('Testes do Serviço de Pagamento', () => {
             const pagamentos = servicoDePagamento.consultar();
 
             //Assert
-            expect(pagamentos).to.have.lengthOf(1);
+            assert.strictEqual(pagamentos.length, 1);
         });
 
         it('Deve classificar categoria como "cara" quando valor > 100.00 ', function () {
@@ -53,22 +55,22 @@ describe('Testes do Serviço de Pagamento', () => {
             assert.equal(pgtoFeito.categoria, 'padrão')
         });
 
-        it('deve classificar pagamento como padrão quando valor for exatamente 100', () => {
-           
+        it('Deve classificar pagamento como padrão quando valor for exatamente 100', () => {
+
             //Arrange
             const servicoDePagamento = new ServicoDePagamento();
 
-           //Act
+            //Act
             servicoDePagamento.pagar('123456', 'Empresa A', 100);
 
-            const pagamento = servico.consultarUltimoPagamento();
+            const pagamento = servicoDePagamento.consultarUltimoPagamento();
 
             //Assert
-            expect(pagamento.categoria).to.equal('padrão');
+            assert.strictEqual(pagamento.categoria, 'padrão');
         });
 
-         it('deve armazenar corretamente os dados do pagamento', () => {
-            
+        it('Deve armazenar corretamente os dados do pagamento', () => {
+
             //Arrange
             const servicoDePagamento = new ServicoDePagamento();
 
@@ -78,7 +80,7 @@ describe('Testes do Serviço de Pagamento', () => {
             const pagamento = servicoDePagamento.consultarUltimoPagamento();
 
             //Assert
-            expect(pagamento).to.deep.equal({
+            assert.deepStrictEqual(pagamento, {
                 codigoBarras: '789456123',
                 empresa: 'Empresa XPTO',
                 valor: 75.50,
@@ -112,16 +114,16 @@ describe('Testes do Serviço de Pagamento', () => {
             assert.notEqual(codBarras, '0987-7656-3479')
         })
 
-         it('deve retornar null quando não houver pagamentos', () => {
+        it('Deve retornar null quando não houver pagamentos', () => {
 
             //Act
             const servicoDePagamento = new ServicoDePagamento();
 
             //Assert
-            expect(servicoDePagamento.consultarUltimoPagamento()).to.be.null;
+            assert.strictEqual(servicoDePagamento.consultarUltimoPagamento(), null);
         })
 
-         it('deve retornar todos os pagamentos cadastrados', () => {
+        it('Deve retornar todos os pagamentos cadastrados', () => {
             //Act
             const servicoDePagamento = new ServicoDePagamento();
             servicoDePagamento.pagar('111', 'Empresa A', 50);
@@ -129,24 +131,23 @@ describe('Testes do Serviço de Pagamento', () => {
 
             const pagamentos = servicoDePagamento.consultar();
 
-            expect(pagamentos).to.have.lengthOf(2);
+            assert.deepStrictEqual(pagamentos, [
+                {
+                    codigoBarras: '111',
+                    empresa: 'Empresa A',
+                    valor: 50,
+                    categoria: 'padrão'
+                },
+                {
+                    codigoBarras: '222',
+                    empresa: 'Empresa B',
+                    valor: 200,
+                    categoria: 'cara'
+                }
+            ]);
 
-            expect(pagamentos[0]).to.deep.equal({
-                codigoBarras: '111',
-                empresa: 'Empresa A',
-                valor: 50,
-                categoria: 'padrão'
-            });
+        })
 
-            expect(pagamentos[1]).to.deep.equal({
-                codigoBarras: '222',
-                empresa: 'Empresa B',
-                valor: 200,
-                categoria: 'cara'
-            });
 
     })
-
-
-})
 })
